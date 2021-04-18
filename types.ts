@@ -11,6 +11,11 @@ export type LessonResponse = {
     | "lesson_no_free_places";
 };
 
+export type LoginResponse = {
+    status: 200 | 403;
+    message?: string;
+}
+
 export type ScheduleResponse = {
   status: number;
   period: string;

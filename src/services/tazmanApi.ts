@@ -1,6 +1,6 @@
 import got from "got";
 import { CookieJar } from "tough-cookie";
-import { ScheduleResponse, LessonResponse } from "../../types";
+import { ScheduleResponse, LessonResponse, LoginResponse } from "../../types";
 import { tazmanUrl, username, password } from "../framework/env";
 
 const fixMonth = (date: Date) => ("0" + (date.getMonth() + 1)).slice(-2);
@@ -10,11 +10,16 @@ let cookieJar: CookieJar;
 const login = async () => {
   const cookieJarMember = new CookieJar();
   try {
-    await got(`${tazmanUrl}/ajax/auth`, {
+    const { body } = await got(`${tazmanUrl}/ajax/auth`, {
       method: "POST",
       form: { login: username, password },
       cookieJar: cookieJarMember,
     });
+    const parsed = JSON.parse(body) as LoginResponse;
+    if (parsed.status !== 200) {
+      console.error("error logging in", parsed.message);
+      throw new Error("error logging in");
+    }
     cookieJar = cookieJarMember;
   } catch (error) {
     console.error("error logging in", error);
@@ -22,9 +27,7 @@ const login = async () => {
   }
 };
 
-const getSchedule = async (
-  startDate: Date
-): Promise<ScheduleResponse> => {
+const getSchedule = async (startDate: Date): Promise<ScheduleResponse> => {
   if (!cookieJar) {
     await login();
   }
@@ -32,7 +35,9 @@ const getSchedule = async (
     startDate
   )}.${startDate.getFullYear()}`;
   try {
-    const { body } = await got(
+    const {
+      body,
+    } = await got(
       `${tazmanUrl}/ajax/sheduler_daily/${startDate.getTimezoneOffset()}`,
       { method: "POST", form: { start_date: formatDate, shift: 1 }, cookieJar }
     );
@@ -47,6 +52,7 @@ const getSchedule = async (
 
 const signUp = async (courseId: string) => {
   if (!cookieJar) {
+    console.error("called signup without logging in, logging in now");
     await login();
   }
   try {
