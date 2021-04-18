@@ -55,6 +55,15 @@ const login = async () => {
   globalCookieJar = cookieJar;
 };
 
+const addToCourse = (courseId: string) =>
+  baseRequest("add_to_course", "POST", {
+    lesson_id: courseId,
+    type: "once",
+    client_name: clientName,
+    client_id_num: clientIdNum,
+    terms_for_meeting_1: 1,
+  });
+
 const getSchedule = async (startDate: Date) => {
   if (!globalCookieJar) {
     await login();
@@ -87,13 +96,7 @@ const signUp = async (courseId: string) => {
     return false;
   }
   try {
-    await baseRequest("add_to_course", "POST", {
-      lesson_id: courseId,
-      type: "once",
-      client_name: clientName,
-      client_id_num: clientIdNum,
-      terms_for_meeting_1: 1,
-    });
+    await addToCourse(courseId);
   } catch (error) {
     return false;
   }

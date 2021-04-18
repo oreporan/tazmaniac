@@ -15,7 +15,7 @@ const filterRelevantCourses = (sched: ScheduleResponse) => {
   myDays.forEach((day, i) => {
     const startTime = myStartTimes[i];
     const item = rawItems.find(
-      (rawItem) => rawItem.day == day && rawItem.start_time === startTime
+      (rawItem) => rawItem.day === day && rawItem.start_time === startTime
     );
     if (!item) {
       console.error(
