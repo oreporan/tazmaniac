@@ -3,3 +3,5 @@ export const myDays = ["1", "3"];
 export const myStartTimes = ["18:00", "19:45"];
 export const username = process.env.USERNAME;
 export const password = process.env.PASSWORD;
+export const clientName = process.env.CLIENT_NAME;
+export const clientIdNum = process.env.CLIENT_ID;

@@ -12,7 +12,7 @@ const run = async () => {
     tazmanApi.signUp(courses[1].course_meeting_description_id),
   ]);
 
-  console.log("Summary of weekly run", date);
+  console.log("Summary of run", date);
   console.log(`Signed up to course A: `, res1);
   console.log(`Signed up to course B: `, res2);
 };
