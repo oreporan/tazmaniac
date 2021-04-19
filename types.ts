@@ -26,10 +26,10 @@ export type ScheduleResponse = {
 
 export type TableEntry = {
   merge: string;
-  items: Item[];
+  items: Course[];
 };
 
-export type Item = {
+export type Course = {
   course_id: string;
   course_meeting_description_id: string;
   active: string;

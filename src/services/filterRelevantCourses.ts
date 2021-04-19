@@ -1,4 +1,4 @@
-import { ScheduleResponse, Item } from "../../types";
+import { ScheduleResponse, Course } from "../../types";
 import { myDays, myStartTimes } from "../framework/env";
 
 const filterRelevantCourses = (sched: ScheduleResponse) => {
@@ -8,9 +8,9 @@ const filterRelevantCourses = (sched: ScheduleResponse) => {
     .flat()
     .reduce((all, current) => {
       return all.concat(current.items);
-    }, [] as Item[]);
+    }, [] as Course[]);
 
-  const relevantCourses: Item[] = [];
+  const relevantCourses: Course[] = [];
 
   myDays.forEach((day, i) => {
     const startTime = myStartTimes[i];
