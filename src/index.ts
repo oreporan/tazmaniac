@@ -12,24 +12,30 @@ const run = async () => {
 
 const runSingleUser = async (user: User) => {
   console.log("starting run for user: ", user.username);
-  const date = new Date();
-  await user.login();
-  const schedule = await user.getSchedule(date);
-  const courses = filterRelevantCourses(schedule, user);
-  const courseA = courses[0].course_meeting_description_id;
-  const courseB = courses[1].course_meeting_description_id;
 
-  console.log("filtered relevant course: ", formatCourse(courses[0]));
-  console.log("filtered relevant course: ", formatCourse(courses[1]));
+  try {
+    const date = new Date();
+    await user.login();
+    const schedule = await user.getSchedule(date);
+    const courses = filterRelevantCourses(schedule, user);
+    const courseA = courses[0].course_meeting_description_id;
+    const courseB = courses[1].course_meeting_description_id;
 
-  const [res1, res2] = await Promise.all([
-    user.signUp(courseA),
-    user.signUp(courseB),
-  ]);
+    console.log("filtered relevant course: ", formatCourse(courses[0]));
+    console.log("filtered relevant course: ", formatCourse(courses[1]));
 
-  console.log("Summary of run", date);
-  console.log(`Signed up to course: ${courseA} - `, res1);
-  console.log(`Signed up to course: ${courseB} - `, res2);
+    const [res1, res2] = await Promise.all([
+      user.signUp(courseA),
+      user.signUp(courseB),
+    ]);
+
+    console.log("Summary of run", date);
+    console.log(`Signed up to course: ${courseA} - `, res1);
+    console.log(`Signed up to course: ${courseB} - `, res2);
+  } catch (error) {
+    console.error(`failed running for user ${user.username} with error`)
+    console.error(error)
+  }
 };
 
 export default run;
