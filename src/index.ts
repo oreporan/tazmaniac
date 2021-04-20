@@ -1,21 +1,30 @@
-import tazmanApi from "./services/tazmanApi";
 import filterRelevantCourses from "./services/filterRelevantCourses";
 import formatCourse from "./services/formatCourse";
+import getUsers from "./services/users";
+import type User from "./entities/User";
 
 const run = async () => {
+  const users = getUsers();
+  for (let i = 0; i < users.length; i++) {
+    await runSingleUser(users[i]);
+  }
+};
+
+const runSingleUser = async (user: User) => {
+  console.log("starting run for user: ", user.username);
   const date = new Date();
-  const schedule = await tazmanApi.getSchedule(date);
-  console.log("received schedule");
-  const courses = filterRelevantCourses(schedule);
+  await user.login();
+  const schedule = await user.getSchedule(date);
+  const courses = filterRelevantCourses(schedule, user);
   const courseA = courses[0].course_meeting_description_id;
   const courseB = courses[1].course_meeting_description_id;
 
-  console.log("filtered relevant course", formatCourse(courses[0]));
-  console.log("filtered relevant course", formatCourse(courses[1]));
+  console.log("filtered relevant course: ", formatCourse(courses[0]));
+  console.log("filtered relevant course: ", formatCourse(courses[1]));
 
   const [res1, res2] = await Promise.all([
-    tazmanApi.signUp(courseA),
-    tazmanApi.signUp(courseB),
+    user.signUp(courseA),
+    user.signUp(courseB),
   ]);
 
   console.log("Summary of run", date);

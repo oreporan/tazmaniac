@@ -1,7 +1,8 @@
 import { ScheduleResponse, Course } from "../../types";
-import { myDays, myStartTimes } from "../framework/env";
+import type User from "../entities/User";
 
-const filterRelevantCourses = (sched: ScheduleResponse) => {
+const filterRelevantCourses = (sched: ScheduleResponse, user: User) => {
+  const { startTimes, days } = user;
   const entries = Object.values(sched.data.table);
   const rawItems = entries
     .map((x) => Object.values(x))
@@ -12,8 +13,8 @@ const filterRelevantCourses = (sched: ScheduleResponse) => {
 
   const relevantCourses: Course[] = [];
 
-  myDays.forEach((day, i) => {
-    const startTime = myStartTimes[i];
+  days.forEach((day, i) => {
+    const startTime = startTimes[i];
     const item = rawItems.find(
       (rawItem) => rawItem.day === day && rawItem.start_time === startTime
     );

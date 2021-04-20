@@ -1,30 +1,22 @@
 import got, { Method } from "got";
 import { CookieJar } from "tough-cookie";
 import { ScheduleResponse, LessonResponse, LoginResponse } from "../../types";
-import {
-  tazmanUrl,
-  username,
-  password,
-  clientIdNum,
-  clientName,
-} from "../framework/env";
+import { tazmanUrl } from "../framework/env";
 
 const fixMonth = (date: Date) => ("0" + (date.getMonth() + 1)).slice(-2);
-
-let globalCookieJar: CookieJar;
 
 const baseRequest = async <T>(
   path: string,
   method: Method,
   form: Record<string, any>,
-  cookieJar?: CookieJar
+  cookieJar: CookieJar
 ) => {
   try {
     const { body } = await got(`${tazmanUrl}/${path}`, {
       followRedirect: false,
       method,
       form,
-      cookieJar: cookieJar ?? globalCookieJar,
+      cookieJar,
     });
     try {
       return JSON.parse(body) as T;
@@ -37,7 +29,7 @@ const baseRequest = async <T>(
   }
 };
 
-const login = async () => {
+const login = async (username: string, password: string) => {
   const cookieJar = new CookieJar();
   const response = await baseRequest<LoginResponse>(
     "ajax/auth",
@@ -52,43 +44,58 @@ const login = async () => {
     console.error("error logging in", response.message);
     throw new Error("error logging in");
   }
-  globalCookieJar = cookieJar;
+  return cookieJar;
 };
 
-const addToCourse = (courseId: string) =>
-  baseRequest("add_to_course", "POST", {
-    lesson_id: courseId,
-    type: "once",
-    client_name: clientName,
-    client_id_num: clientIdNum,
-    terms_for_meeting_1: 1,
-  });
+const addToCourse = (
+  courseId: string,
+  clientName: string,
+  clientIdNum: string,
+  cookieJar: CookieJar
+) =>
+  baseRequest(
+    "add_to_course",
+    "POST",
+    {
+      lesson_id: courseId,
+      type: "once",
+      client_name: clientName,
+      client_id_num: clientIdNum,
+      terms_for_meeting_1: 1,
+    },
+    cookieJar
+  );
 
-const getSchedule = async (startDate: Date) => {
-  if (!globalCookieJar) {
-    await login();
-  }
+const getSchedule = async (startDate: Date, cookieJar: CookieJar) => {
   const formatDate = `${startDate.getDate()}.${fixMonth(
     startDate
   )}.${startDate.getFullYear()}`;
   const response = await baseRequest<ScheduleResponse>(
     `ajax/sheduler_daily/${startDate.getTimezoneOffset()}`,
     "POST",
-    { start_date: formatDate, shift: 1 }
+    { start_date: formatDate, shift: 1 },
+    cookieJar
   );
   if (response.status !== 200)
     throw new Error("invalid response from get schedule");
   return response;
 };
 
-const signUp = async (courseId: string) => {
-  if (!globalCookieJar) {
-    await login();
-  }
-  const response = await baseRequest<LessonResponse>("ajax/lesson", "POST", {
-    id: courseId,
-    status: 200,
-  });
+const signUp = async (
+  courseId: string,
+  clientName: string,
+  clientIdNum: string,
+  cookieJar: CookieJar
+) => {
+  const response = await baseRequest<LessonResponse>(
+    "ajax/lesson",
+    "POST",
+    {
+      id: courseId,
+      status: 200,
+    },
+    cookieJar
+  );
   if (!response.result) {
     console.log(
       `could not signup to course ${courseId}, status: ${response.status}`
@@ -96,7 +103,7 @@ const signUp = async (courseId: string) => {
     return false;
   }
   try {
-    await addToCourse(courseId);
+    await addToCourse(courseId, clientName, clientIdNum, cookieJar);
   } catch (error) {
     return false;
   }
@@ -105,6 +112,7 @@ const signUp = async (courseId: string) => {
 };
 
 export default {
+  login,
   getSchedule,
   signUp,
 };
