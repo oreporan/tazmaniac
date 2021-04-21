@@ -5,6 +5,7 @@ import {
     passwords,
     startTimes,
     days,
+    telegramChatIds,
   } from "../framework/env";
   import User from "../entities/User";
   
@@ -40,7 +41,8 @@ import {
           splitter(startTimes!)[i].split(","),
           splitter(passwords!)[i],
           splitter(clientIdNums!)[i],
-          splitter(clientNames!)[i]
+          splitter(clientNames!)[i],
+          splitter(telegramChatIds!)[i]
         )
     );
   };

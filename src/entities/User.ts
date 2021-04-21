@@ -9,7 +9,8 @@ class User {
     public startTimes: string[],
     private password: string,
     private clientId: string,
-    private clientName: string
+    private clientName: string,
+    public telegramChatId?: string
   ) {}
 
   async login() {

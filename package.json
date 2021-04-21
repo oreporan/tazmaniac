@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/oreporan/tazmaniac#readme",
   "devDependencies": {
-    "@types/nodemailer": "^6.4.1",
+    "@types/node-telegram-bot-api": "^0.51.1",
     "@types/tough-cookie": "^4.0.0",
     "ts-node": "^9.1.1",
     "tslib": "^2.2.0",
@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "got": "^11.8.2",
-    "nodemailer": "^6.5.0",
+    "node-telegram-bot-api": "^0.52.0",
     "tough-cookie": "^4.0.0"
   }
 }
