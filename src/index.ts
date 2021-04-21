@@ -1,6 +1,7 @@
 import filterRelevantCourses from "./services/filterRelevantCourses";
 import formatCourse from "./services/formatCourse";
 import getUsers from "./services/users";
+import sendEmail from "./services/email";
 import type User from "./entities/User";
 
 const run = async () => {
@@ -32,6 +33,8 @@ const runSingleUser = async (user: User) => {
     console.log("Summary of run", date);
     console.log(`Signed up to course: ${courseA} - `, res1);
     console.log(`Signed up to course: ${courseB} - `, res2);
+    await sendEmail(user.username, courses[0]);
+    await sendEmail(user.username, courses[1]);
   } catch (error) {
     console.error(`failed running for user ${user.username} with error`);
     console.error(error);

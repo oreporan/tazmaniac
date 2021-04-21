@@ -5,3 +5,6 @@ export const usernames = process.env.USERNAMES;
 export const passwords = process.env.PASSWORDS;
 export const clientNames = process.env.CLIENT_NAMES;
 export const clientIdNums = process.env.CLIENT_IDS;
+export const cloudmailinApiKey = process.env.CLOUDMAILIN_EMAIL_API_KEY ?? '';
+export const cloudmailinUsername = process.env.CLOUDMAILIN_EMAIL_USERNAME ?? '';
+export const cloudmailinHost = process.env.CLOUDMAILIN_HOST ?? 'smtp.cloudmta.net';
