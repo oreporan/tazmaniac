@@ -33,8 +33,8 @@ const runSingleUser = async (user: User) => {
     console.log(`Signed up to course: ${courseA} - `, res1);
     console.log(`Signed up to course: ${courseB} - `, res2);
   } catch (error) {
-    console.error(`failed running for user ${user.username} with error`)
-    console.error(error)
+    console.error(`failed running for user ${user.username} with error`);
+    console.error(error);
   }
 };
 

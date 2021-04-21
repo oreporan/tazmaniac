@@ -12,7 +12,7 @@ import {
   
   const validateField = (expectedNumber: number, field?: string) => {
     const splitFieldLength = splitter(field!).length;
-    if (splitFieldLength !== expectedNumber)
+    if (splitFieldLength < expectedNumber)
       throw new Error(
         `users validation failed on field: ${field?.toString()}, got value: ${field}, expected ${expectedNumber} but got ${splitFieldLength}`
       );
