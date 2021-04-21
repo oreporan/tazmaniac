@@ -30,8 +30,12 @@ const runSingleUser = async (user: User) => {
       user.signUp(courseB),
     ]);
 
-    await sendMessage(user, courses[0]);
-    await sendMessage(user, courses[1]);
+    if (res1) {
+      await sendMessage(user, courses[0]);
+    }
+    if (res2) {
+      await sendMessage(user, courses[1]);
+    }
   } catch (error) {
     console.error(`failed running for user ${user.username} with error`);
     console.error(error);
