@@ -19,6 +19,9 @@ const sendMessage = async (user: User, course: Course) => {
   await bot.sendMessage(telegramChatId, template(course), {
     parse_mode: "HTML",
   });
+  console.log(
+    `sent telegram message to ${user.username} with chatId ${user.telegramChatId} `
+  );
 };
 
 export default sendMessage;
