@@ -5,5 +5,5 @@ export const usernames = process.env.USERNAMES;
 export const passwords = process.env.PASSWORDS;
 export const clientNames = process.env.CLIENT_NAMES;
 export const clientIdNums = process.env.CLIENT_IDS;
-export const telegramToken = process.env.TELEGRAM_TOKEN ?? '';
+export const telegramToken = process.env.TELEGRAM_TOKEN;
 export const telegramChatIds = process.env.TELEGRAM_CHAT_IDS;

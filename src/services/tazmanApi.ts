@@ -98,7 +98,9 @@ const signUp = async (
   );
   if (!response.result) {
     console.log(
-      `could not signup to course ${courseId}, status: ${response.status}`
+      `could not signup to course ${courseId}, status: ${
+        response.status === 200 ? response.content : response.status
+      }`
     );
     return false;
   }

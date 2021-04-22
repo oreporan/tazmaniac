@@ -1,5 +1,6 @@
 export type LessonResponse = {
   result: boolean;
+  content?: string;
   status:
     | "registered"
     | "timeout"
@@ -8,7 +9,8 @@ export type LessonResponse = {
     | "registration_to_course_closed"
     | "lesson_canceled"
     | "alredy_registered_on_this_course"
-    | "lesson_no_free_places";
+    | "lesson_no_free_places"
+    | 200;
 };
 
 export type LoginResponse = {
