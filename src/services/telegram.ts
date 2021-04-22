@@ -9,7 +9,6 @@ const getDay = (date: string) =>
   new Date(date).toLocaleString("en-US", { weekday: "long" });
 
 const template = ({
-  course_meeting_description_id,
   date,
   start_time,
   end_time,
