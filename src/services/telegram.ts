@@ -6,13 +6,9 @@ import { Course } from "../../types";
 const bot = new TelegramBot(telegramToken, { polling: false });
 
 const template = (course: Course) =>
-  `**Message from Tazmaniac!** \n Signed you up for class ${course.course_meeting_description_id} \n **Date:** ${course.date} \n **Time:** ${course.start_time} - ${course.end_time} \n **Free places:** ${course.free_places}`;
+  `<b>Message from Tazmaniac!</b> \n Signed you up for class ${course.course_meeting_description_id} \n <b>Date:</b> ${course.date} \n <b>Time:</b> ${course.start_time} - ${course.end_time} \n <b>Free places:</b> ${course.free_places}`;
 
 const sendMessage = async (user: User, course: Course) => {
-  if (bot.isPolling()) {
-    await bot.stopPolling();
-  }
-  await bot.startPolling();
   const { telegramChatId, username } = user;
   if (!telegramChatId) {
     console.log(
@@ -21,9 +17,8 @@ const sendMessage = async (user: User, course: Course) => {
     return;
   }
   await bot.sendMessage(telegramChatId, template(course), {
-    parse_mode: "Markdown",
+    parse_mode: "HTML",
   });
-  await bot.stopPolling();
 };
 
 export default sendMessage;
