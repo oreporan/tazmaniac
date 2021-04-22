@@ -3,7 +3,7 @@ import type User from "../entities/User";
 import { telegramToken } from "../framework/env";
 import { Course } from "../../types";
 
-const bot = new TelegramBot(telegramToken ?? '', { polling: false });
+const bot = new TelegramBot(telegramToken ?? "", { polling: false });
 
 const template = (course: Course) =>
   `<b>Message from Tazmaniac!</b> \n Signed you up for class ${course.course_meeting_description_id} \n <b>Date:</b> ${course.date} \n <b>Time:</b> ${course.start_time} - ${course.end_time} \n <b>Free places:</b> ${course.free_places}`;
@@ -20,7 +20,7 @@ const sendMessage = async (user: User, course: Course) => {
     parse_mode: "HTML",
   });
   console.log(
-    `sent telegram message to ${user.username} with chatId ${user.telegramChatId} `
+    `sent telegram message to ${username} with chatId ${telegramChatId} `
   );
 };
 
