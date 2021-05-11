@@ -22,19 +22,18 @@ const runSingleUser = async (user: User) => {
     const courseA = courses[0];
     const courseB = courses[1];
 
-    console.log("filtered relevant course: ", formatCourse(courseA));
-    console.log("filtered relevant course: ", formatCourse(courseB));
-
-    const [resA, resB] = await Promise.all([
-      user.signUp(courseA.course_meeting_description_id),
-      user.signUp(courseB.course_meeting_description_id),
-    ]);
-
-    if (resA) {
-      await sendMessage(user, courseA);
+    if (!courses.length) {
+      console.log("no courses found");
+      return;
     }
-    if (resB) {
-      await sendMessage(user, courseB);
+
+    for (let i = 0; i < courses.length; i++) {
+      const course = courses[i];
+      console.log("filtered relevant course: ", formatCourse(course));
+      const signedUp = await user.signUp(courseA.course_meeting_description_id);
+      if (signedUp) {
+        await sendMessage(user, courseA);
+      }
     }
   } catch (error) {
     console.error(`failed running for user ${user.username} with error`);

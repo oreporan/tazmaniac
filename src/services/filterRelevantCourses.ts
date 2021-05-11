@@ -31,7 +31,6 @@ const filterRelevantCourses = (sched: ScheduleResponse, user: User) => {
     console.error(
       `should have only found 2 relevant courses, but instead got ${relevantCourses.length}`
     );
-    throw new Error("invalid amout of courses found");
   }
 
   return relevantCourses;
