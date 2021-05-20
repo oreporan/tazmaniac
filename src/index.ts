@@ -19,8 +19,6 @@ const runSingleUser = async (user: User) => {
     await user.login();
     const schedule = await user.getSchedule(date);
     const courses = filterRelevantCourses(schedule, user);
-    const courseA = courses[0];
-    const courseB = courses[1];
 
     if (!courses.length) {
       console.log("no courses found");
@@ -30,9 +28,9 @@ const runSingleUser = async (user: User) => {
     for (let i = 0; i < courses.length; i++) {
       const course = courses[i];
       console.log("filtered relevant course: ", formatCourse(course));
-      const signedUp = await user.signUp(courseA.course_meeting_description_id);
+      const signedUp = await user.signUp(course.course_meeting_description_id);
       if (signedUp) {
-        await sendMessage(user, courseA);
+        await sendMessage(user, course);
       }
     }
   } catch (error) {
