@@ -38,6 +38,5 @@ export type Course = {
   date: string;
   day: string;
   start_time: string;
-  free_places: number;
   end_time: string;
 };

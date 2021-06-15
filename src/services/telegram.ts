@@ -12,11 +12,10 @@ const template = ({
   date,
   start_time,
   end_time,
-  free_places,
 }: Course) =>
   `<b>Message from Tazmaniac! \u{1F47D} </b> \n Signed you up for 'Yoga with Edo' \n <b>Date:</b> ${date} \n <b>Day:</b> ${getDay(
     date
-  )} \n <b>Time:</b> ${start_time} - ${end_time} \n <b>Free places:</b> ${free_places} \n Namaste! \u{1F33F}`;
+  )} \n <b>Time:</b> ${start_time} - ${end_time} \n  Namaste! \u{1F33F}`;
 
 const sendMessage = async (user: User, course: Course) => {
   const { telegramChatId, username } = user;
